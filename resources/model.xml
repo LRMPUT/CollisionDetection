@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+  <conf> 
+	<linksNo>3</linksNo> 
+	<jointsNo>3</jointsNo> 
+  </conf>
+
+  <Platform>
+    <name>Corpus</name>
+    <parameters length="0.299" width="0.205"></parameters>
+  </Platform>
+
+  <Link0>
+    <name>Coxa</name>
+    <parameters length="0.049"></parameters>
+  </Link0>
+
+  <Link1>
+    <name>Femur</name>
+    <parameters length="0.12"></parameters>
+  </Link1>
+
+  <Link2>
+    <name>Vitulus</name>
+    <parameters length="0.174"></parameters>
+  </Link2>
+
+  <parameters>
+	  <Joint0>
+			<x>5.15</x>
+			<y>12.06</y>
+			<z>-0.19</z>
+			<alfa>0</alfa>
+			<beta>0</beta>
+			<gamma>180</gamma>
+	  </Joint0>
+	  <Joint1> 
+			<x>4.865</x>
+			<y>1.18</y>
+			<z>0.075</z>
+			<alfa>-90</alfa>
+			<beta>0</beta>
+			<gamma>0</gamma>
+	  </Joint1>
+	  <Joint2>  
+			<x>12.0</x>
+			<y>0</y>
+			<z>0</z>
+			<alfa>0</alfa>
+			<beta>0</beta>
+			<gamma>0</gamma>
+	  </Joint2>
+ </parameters>
+
+  <pose x="0.0" y="0.0" z="0.0" qw="0" qx="0" qy="0.707107" qz="0.707107"></pose>
+
+  <platform_orientation x="0.0" y="0.0" z="0.0" alfa="90.0" beta"0.0" gamma"180.0></platform_orientation>
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <conf> 
+	<linksNo>3</linksNo> 
+	<jointsNo>3</jointsNo>
+	<legsNo>6</legsNo>
+  </conf>
+
+ <Part0 name="PLATFORM" length="0.299" width="0.205"></Part0>
+
+ <Part1 name="COXA" length="0.049"></Part1>
+ 
+ <Part2 name="FEMUR" length="0.12"></Part2>
+ 
+ <Part3 name="VITULUS" length="0.174"></Part3>
+ 
+  <parameters>
+    <Poczatkowe x="5.15" y="12.06" z="-0.1"></Poczatkowe>
+    <Joint0 x="0" z="0" alfa="0" gamma="0"></Joint0>
+    <Joint1 x="4.865" z="-1.27" alfa="90" gamma="0"></Joint1>
+    <Joint2 x="12.0" z="0" alfa="0" gamma="0"></Joint2>
+    <Leg1 x="0" y="0" gamma="0"></Leg1>
+    <Leg2 x="5.15" y="-12.06" gamma="0"></Leg2>
+    <Leg3 x="0" y="-24.12" gamma="0"></Leg3>
+    <Leg4 x="-10.3" y="-24.12" gamma="180"></Leg4>
+    <Leg5 x="-15.45" y="-12.06" gamma="180"></Leg5>
+    <Leg6 x="-10.3" y="0" gamma="180"></Leg6>
+  </parameters>
+  
+
+</document>

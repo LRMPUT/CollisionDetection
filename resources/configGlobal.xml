@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!-- Robot model configuration -->
+  <RobotModel>
+    <name>MessorII</name>
+    <calibrationFile>Messor_II_Model.xml</calibrationFile>
+  </RobotModel>
