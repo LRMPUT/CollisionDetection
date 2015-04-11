@@ -10,7 +10,7 @@ CObjects3DS::~CObjects3DS(){
 
 void CObjects3DS::Object3DS(int obj_qty, float scale)
 {
-    int i,j;
+    int j;
 	float normal[3];
 	float ** vert = new float*[3];
 	for(int i = 0; i < 3; i++)

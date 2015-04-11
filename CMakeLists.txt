@@ -7,7 +7,7 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 
 # Example Project configuration
 PROJECT(COLLISIONDETECTIONMESSORII)
-SET(CMAKE_CXX_FLAGS "-std=c++11 -pthread")
+# SET(CMAKE_CXX_FLAGS "-std=c++11 -pthread")
 
 # Folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)

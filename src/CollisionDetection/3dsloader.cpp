@@ -12,11 +12,7 @@
  * Include File: 3dsloader.cpp
  *  
  */
-
-//#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-//#include <conio.h>
+#define _CRT_SECURE_NO_DEPRECATE
 
 #include <stdio.h>
 #include <stdlib.h>

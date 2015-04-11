@@ -594,8 +594,6 @@ void MouseMotion( int x, int y )
 
 void display(void)
 {
-    int l_index;
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// This clear the background color to dark blue
     glMatrixMode(GL_MODELVIEW);		// Modeling transformation
     glLoadIdentity();	// Initialize the model matrix as identity

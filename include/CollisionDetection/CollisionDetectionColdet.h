@@ -131,7 +131,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 
                 std::cout << nazwy_czesci.front() << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
-                for(int i=1; i<nazwy_czesci.size(); i++)
+                for(size_t i=1; i<nazwy_czesci.size(); i++)
                     std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
                 std::cout << "Configuration done.\n";
 			}
