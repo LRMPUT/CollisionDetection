@@ -68,13 +68,13 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				tinyxml2::XMLElement * element;
 
 				//rezerwacja pamieci dla konkretnej liczby elementow wektora
-				nazwy_czesci.reserve(jointsNo+1);
-				links_lengths.reserve(jointsNo);
-				polozenie_pocz.reserve(3);
-				joint0.reserve(4);
-				joint1.reserve(4);
-				joint2.reserve(4);
-				Leg.reserve(legsNo);
+				nazwy_czesci.resize(jointsNo+1);
+				links_lengths.resize(jointsNo);
+				polozenie_pocz.resize(3);
+				joint0.resize(4);
+				joint1.resize(4);
+				joint2.resize(4);
+				Leg.resize(legsNo);
 
 				/// sczytywanie nazwy i wymiarow korpusu
 				std::string parName = "Part0";
@@ -131,8 +131,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 
                 std::cout << nazwy_czesci.front() << " length is: " << platform_length << " and width is: " << platform_width <<"\n";
-                for(size_t i=1; i<nazwy_czesci.size(); i++)
-                    std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
+                //for(size_t i=1; i<nazwy_czesci.size()-1; i++)
+                //    std::cout << nazwy_czesci[i] << " length is: " << links_lengths[i-1] <<"\n";
                 std::cout << "Configuration done.\n";
 			}
 

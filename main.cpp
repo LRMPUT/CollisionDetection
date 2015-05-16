@@ -652,7 +652,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(screen_width,screen_height);
     glutInitWindowPosition(400,200);
-    glutCreateWindow("Model robota Messor II");    
+    glutCreateWindow("Model robota Messor II");
 	robot_structure = createCollisionDetectionColdet("Messor_II_Model.xml");  // Wczytywanie pliku .xml Messora II, wywolanie konstruktora.
 	init();
     glutDisplayFunc(display);
