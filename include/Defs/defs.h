@@ -1,6 +1,12 @@
 #ifndef DEFS_H_INCLUDED
 #define DEFS_H_INCLUDED
 
+/**********************************************************
+*
+*		author: Tomasz Augustyn
+* 
+**********************************************************/
+
 #include <cstdint>
 #include <vector>
 #include <memory>
@@ -8,7 +14,7 @@
 #include "../../3rdParty/Eigen/Core"
 #include "../../3rdParty/Eigen/Geometry"
 
-/// coldet name space
+/// coldet namespace
 namespace coldet {
 
 	/// coldet default floating point

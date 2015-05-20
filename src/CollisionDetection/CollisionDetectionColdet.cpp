@@ -24,7 +24,7 @@ CollisionDetectionColdet::~CollisionDetectionColdet(void)
 {
 }
 
-/// Dla konkretnej zaladowanej czesci tworzony jest mesh stosowany pozniej do testow kolizji
+/// For the given loaded robot's part, function creates a mesh necessary to execute collision tests
 void CollisionDetectionColdet::initCollisionModel(uint_fast8_t objectNo, CollisionModel3D& model) {
 	for (int j=0;j<robot_model.object[objectNo].polygons_qty;j++) {
 		model.addTriangle(	robot_model.object[objectNo].vertex[ robot_model.object[objectNo].polygon[j].a ].x*0.254, robot_model.object[objectNo].vertex[ robot_model.object[objectNo].polygon[j].a ].y*0.254, robot_model.object[objectNo].vertex[ robot_model.object[objectNo].polygon[j].a ].z*0.254, 
@@ -34,7 +34,7 @@ void CollisionDetectionColdet::initCollisionModel(uint_fast8_t objectNo, Collisi
 	model.finalize();
 }
 
-/// inicjalizacja modeli kolizji.
+/// Initialization of collision models
 void CollisionDetectionColdet::CollisionModels(void)
 {
 	initCollisionModel(0, *meshModel[0]); 
@@ -46,7 +46,7 @@ void CollisionDetectionColdet::CollisionModels(void)
 	}
 }
 
-/// Tworzenie GlCallLists, dla danej czesci liste tworzy sie tylko raz w programie, tutaj poprzez initStructures
+/// Initializing GlCallLists, for the certain part the list is created only once in the program, here through initStructures function
 void CollisionDetectionColdet::initStructures(void)
 {
 	structPlatform();
@@ -59,7 +59,6 @@ void CollisionDetectionColdet::initStructures(void)
 void CollisionDetectionColdet::structPlatform(void)
 {
 	glNewList(GL_PLATFORM, GL_COMPILE);
-//	glColor3f(1.0,0.0,0.0);
 	robot_model.Object3DS(0);
 	glEndList();
 }
@@ -67,7 +66,6 @@ void CollisionDetectionColdet::structPlatform(void)
 void CollisionDetectionColdet::structCoxa(void)
 {
 	glNewList(GL_COXA, GL_COMPILE);
-//	glColor3f(1.0, 0.77, 0.02);
 	robot_model.Object3DS(1);
 	glEndList();
 }
@@ -75,7 +73,6 @@ void CollisionDetectionColdet::structCoxa(void)
 void CollisionDetectionColdet::structFemur(void)
 {
 	glNewList(GL_FEMUR, GL_COMPILE);
-//	glColor3f(0.02, 0.25, 1.0);
 	robot_model.Object3DS(2);
 	glEndList();
 }
@@ -83,7 +80,6 @@ void CollisionDetectionColdet::structFemur(void)
 void CollisionDetectionColdet::structVitulus(void)
 {
 	glNewList(GL_VITULUS, GL_COMPILE);
-//	glColor3f(0.0,0.92,0.1);
 	robot_model.Object3DS(3);
 	glEndList();
 }
@@ -119,7 +115,7 @@ void CollisionDetectionColdet::drawCoordinateSystem(void)
 	glColor3f(1, 1, 1);
 }
 
-/// Kopiowanie elementow macierzy 4x4 do wektora float[16], wykorzystywane przez metode Leg_All
+/// Function that copies elements of 4x4 matrix into 16-element float vector. It's used by Leg_All method
 void CollisionDetectionColdet::copyTable(coldet::Mat34& src, float * dest) const{
 	for (int i=0;i<4;i++){
 		for (int j=0;j<4;j++){
@@ -128,7 +124,7 @@ void CollisionDetectionColdet::copyTable(coldet::Mat34& src, float * dest) const
 	}
 }
 
-/// Przeksztalcenia na meshach kolejnych nog robota, tak aby meshe pokrywaly sie z tym co jest narysowane w OpenGL'u
+/// Function that transforms meshes of the following robot's legs, so that the meshes agree with the robot model drawn in OpenGL
 void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, coldet::Mat34& m_noga, std::array<coldet::float_type, 3> Leg)const {
 
 	Eigen::Vector3d wektor_biodro(polozenie_pocz[0]*0.254, polozenie_pocz[1]*0.254, polozenie_pocz[2]*0.254);
@@ -157,8 +153,7 @@ void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float 
 }
 
 
-
-/// wyswietalnie nog robota w OpenGL'u, przeksztalcenia na wartosciach zaciagnietych z pliku .xml
+/// Function that displays robot's legs in OpenGL. Transformations are based on the values loaded from .xml file
 void CollisionDetectionColdet::GLLeg_All(int legNo, float Qn_1, float Qn_2, float Qn_3, std::vector<bool>& collision_table, std::array<coldet::float_type, 3> Leg) const{
 
 	glPushMatrix();
@@ -206,7 +201,7 @@ void CollisionDetectionColdet::GLLeg_All(int legNo, float Qn_1, float Qn_2, floa
 }
 
 
-/// skaldanie meshow wszysztkich czesci robota w calosc
+/// Putting all the robot's meshes together in order to form the whole robot
 void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const
 {
 	coldet::Mat34 m4;
@@ -227,7 +222,7 @@ void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::
 
 }
 
-/// Rysowanie calego robota
+/// Drawing whole robot in OpenGL
 void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config,  std::vector<bool>& collision_table) const {
 
 	float GLmat[16]={pose(0,0), pose(1,0), pose(2,0), pose(3,0), pose(0,1), pose(1,1), pose(2,1), pose(3,1), pose(0,2), pose(1,2), pose(2,2), pose(3,2), pose(0,3), pose(1,3), pose(2,3), pose(3,3)}; //macierz do przeksztalcen
@@ -261,7 +256,7 @@ void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std:
 
 }
 
-/// funkcja sprawdzajaca kolizje 
+/// Function that checks collisions
 bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config, std::vector<bool>& collision_table) const{
 
 	DrawRobot(pose, config);
@@ -270,14 +265,13 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[i]=false;
 	}
 
-	//*******KOLIZJE KONCZYN ROBOTA******************************************************************
-	//collision_table[0] korpus koliduje
-	//collision_table[1-6] pierwszy czlon koliduje
-	//collision_table[7-12] drugi czlon koliduje
-	//collision_table[13-18] trzeci czlon koliduje
+	//*******COLLISIONS OF ROBOT'S PARTS******************************************************************
+	//collision_table[0] corpus collides
+	//collision_table[1-6] first links collide
+	//collision_table[7-12] second links collide
+	//collision_table[13-18] third links collide
 
-	//=========KOLIZJE wszystkich czesci ze wszystkimi - lepsza dokladnosc ale zajmuje wiecej czasu. Do sprawdzania szybkosci wykrywania kolizji, wziety jest ten w petli 'for' - dluzszy czas wykrywania, dla szybszego wykrywania kolizji nalezy odkomentowac kod pod petla i wykomentowac petle
-
+	//=========COLLISIONS between every part with all the other parts - better precision but takes more time. For the faster collision detection uncomment the code under the 'for' loop
 	for(int j=0; j<3*legsNo+1; j++){
 			for(int i=0; i<3*legsNo+1; i++){
 				if(i!=j){
@@ -306,7 +300,9 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (meshModel[FEMUR4]->collision(meshModel[FEMUR6])) {
 		collision_table[10]=true; collision_table[12]=true;
 	}
-	//=========KOLIZJE miedzy trzecimi ogniwami od korpusu roznymi nogami
+
+	//=========COLLISIONS between third links (counted from corpus) of the different legs
+
 	if (meshModel[VITULUS5]->collision(meshModel[VITULUS6])) {
 		collision_table[17]=true; collision_table[18]=true;
 	}
@@ -325,7 +321,10 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (meshModel[VITULUS4]->collision(meshModel[VITULUS6])) {
 		collision_table[16]=true; collision_table[18]=true;
 	}
-	//=========KOLIZJE miedzy drugimi, a trzecimi ogniwami od korpusu miedzy roznymi nogami
+
+
+	//=========COLLISIONS between second and third links (counted from corpus) of the different legs
+
 	if (meshModel[VITULUS5]->collision(meshModel[FEMUR3])) {
 		collision_table[17]=true; collision_table[9]=true;
 	}
@@ -362,7 +361,9 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (meshModel[VITULUS6]->collision(meshModel[FEMUR5])) {
 		collision_table[18]=true; collision_table[11]=true;
 	}
-	//=========KOLIZJE miedzy pierwszymi, a drugimi ogniwami od korpusu miedzy roznymi nogami
+
+	//=========COLLISIONS between first and second links (counted from corpus) of the different legs
+
 	if (meshModel[FEMUR5]->collision(meshModel[COXA3])) {
 		collision_table[11]=true; collision_table[3]=true;
 	}
@@ -399,7 +400,9 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	if (meshModel[FEMUR6]->collision(meshModel[COXA5])) {
 		collision_table[12]=true; collision_table[5]=true;
 	}
-	//=========KOLIZJE miedzy pierwszymi, a trzecimi ogniwami od korpusu miedzy roznymi nogami
+
+	//=========COLLISIONS between first and third links (counted from corpus) of the different legs
+
 	if (meshModel[VITULUS5]->collision(meshModel[COXA3])) {
 		collision_table[17]=true; collision_table[3]=true;
 	}
@@ -438,8 +441,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 	}
 
 
-
-	//=========KOLIZJE miedzy korpusem, a pierwszymi ogniwami od niego (Miedzy Coxa1-6, a Corpus)
+	//=========COLLISIONS between corpus and first links from it (between Coxa1-6 and Corpus)
 
 	if (meshModel[COXA5]->collision(meshModel[PLATFORM])) {
 		collision_table[5]=true; collision_table[0]=true;
@@ -461,7 +463,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[6]=true; collision_table[0]=true;
 	}
 
-	//=========KOLIZJE miedzy korpusem, a drugimi ogniwami od niego (Miedzy Femur1-6, a Corpus)
+	//=========COLLISIONS between corpus and second links from it (between Femur1-6 and Corpus)
 
 		if (meshModel[FEMUR5]->collision(meshModel[PLATFORM])) {
 		collision_table[11]=true; collision_table[0]=true;
@@ -482,7 +484,7 @@ bool CollisionDetectionColdet::checkCollision(const coldet::Mat34& pose, const s
 		collision_table[12]=true; collision_table[0]=true;
 	}
 
-	//=========KOLIZJE miedzy korpusem, a trzecimi ogniwami od niego (Miedzy Vitulus1-6, a Corpus)
+	//=========COLLISIONS between corpus and third links from it (between Vitulus1-6 and Corpus)
 
 	if (meshModel[VITULUS5]->collision(meshModel[PLATFORM])) {
 		collision_table[17]=true; collision_table[0]=true;

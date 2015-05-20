@@ -36,8 +36,8 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		enum MechParts
 		{
 			PLATFORM, //0
-			COXA1, COXA2, COXA3, COXA4, COXA5, COXA6,//1,2,3,4,5,6 
-			FEMUR1, FEMUR2, FEMUR3, FEMUR4, FEMUR5, FEMUR6,//7,8,9,10,11,12
+			COXA1, COXA2, COXA3, COXA4, COXA5, COXA6, //1,2,3,4,5,6 
+			FEMUR1, FEMUR2, FEMUR3, FEMUR4, FEMUR5, FEMUR6, //7,8,9,10,11,12
 			VITULUS1, VITULUS2, VITULUS3, VITULUS4, VITULUS5, VITULUS6, //13,14,15,16,17,18
 
 
@@ -67,7 +67,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				std::string param_str;
 				tinyxml2::XMLElement * element;
 
-				//rezerwacja pamieci dla konkretnej liczby elementow wektora
+				/// Memory allocation for the fixed number of vector elements
 				nazwy_czesci.resize(jointsNo+1);
 				links_lengths.resize(jointsNo);
 				polozenie_pocz.resize(3);
@@ -76,14 +76,14 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 				joint2.resize(4);
 				Leg.resize(legsNo);
 
-				/// sczytywanie nazwy i wymiarow korpusu
+				/// Loading name and the dimensions of the platform (corpus)
 				std::string parName = "Part0";
 				element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
                 nazwy_czesci.push_back(element->Attribute("name"));
 				element->QueryDoubleAttribute("length", &param); platform_length = param;
 				element->QueryDoubleAttribute("width", &param); platform_width = param;
 
-				/// sczytywanie nazwy i wymiarow poszczegolnych czesci robota
+				/// Loading names and the dimensions of the following robot's parts
 				for(int i=1; i<jointsNo+1; i++){
 					parName = "Part" + std::to_string(i);
 					element =(config.FirstChildElement("document")->FirstChildElement(parName.c_str()));
@@ -91,35 +91,34 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 					element->QueryDoubleAttribute("length", &param);  links_lengths[i-1] = param;
 				}
 				
-				/// sczytywane sa parametry poczatkowe, w ktorych rysyowana bedzie pierwsza noga
+				/// Loading the initial parameters which indicates the place where the first leg is being drawn
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Poczatkowe");
 				element->QueryDoubleAttribute("x", &param);  polozenie_pocz[0] = param;
 				element->QueryDoubleAttribute("y", &param);  polozenie_pocz[1] = param;
 				element->QueryDoubleAttribute("z", &param);  polozenie_pocz[2] = param;
-				//nazwa 'PolozeniePocz' nie dziala, nie wiadomo dlaczego
 
-				/// przeksztalcenia pierwszego wezla
+				/// Transformations of the first joint
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint0");
 				element->QueryDoubleAttribute("x", &param);  joint0[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint0[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint0[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint0[3] = param;
 
-				/// przeksztalcenia drugiego wezla
+				/// Transformations of the second joint
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint1");
 				element->QueryDoubleAttribute("x", &param);  joint1[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint1[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint1[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint1[3] = param;
 
-				/// przeksztalcenia trzeciego wezla
+				/// Transformations of the third joint
 				element=config.FirstChildElement("document")->FirstChildElement("parameters")->FirstChildElement("Joint2");
 				element->QueryDoubleAttribute("x", &param);  joint2[0] = param;
 				element->QueryDoubleAttribute("z", &param);  joint2[1] = param;
 				element->QueryDoubleAttribute("alfa", &param);  joint2[2] = param;
 				element->QueryDoubleAttribute("gamma", &param);  joint2[3] = param;
 
-				/// sczytywanie pozycji kolejnych nog robota wzgledem pozycji poczatkowej
+				/// Loading positions of the following legs in relation to the initial position
 				for(int i=0; i<legsNo; i++){
 
 					parName = "Leg" + std::to_string(i+1);
@@ -136,7 +135,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
                 std::cout << "Configuration done.\n";
 			}
 
-			/// Ladowanie czesci robota, zmienne a,b,c,d przyjmuja wartosc '1' gdy czesc jest zaladowana poprawnie
+			/// Loading robot's parts from 3DS model, a,b,c,d variables takes '1' if the part is loaded correctly
 			char a,b,c,d;
             std::cout << "Load model...";
 			a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
@@ -145,7 +144,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
             std::cout << "done.\n";
 
-			/// tworzenie modeli kolizji w zaleznosci od ilosci nog robota (zalozenie ze kazda noga ma 3 stawy)
+			/// Creating collision models depending on the number of robot's legs (assuming that each leg has 3 links)
 			for (int i=0;i<3*legsNo+1;i++) {
 				CollisionModel3D* tmp = newCollisionModel3D();
 				meshModel.push_back(tmp);
@@ -183,7 +182,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 		void initCollisionModel(uint_fast8_t objectNo, CollisionModel3D& model);
 		/// initialize collision models
 		void CollisionModels(void);
-		/// initialize GL lists
+		/// initialize GLLists
 		void structPlatform(void);
 		void structCoxa(void);
 		void structFemur(void);
@@ -195,7 +194,7 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 
 		void copyTable(coldet::Mat34& src, float * dest) const;
 		void DrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const;
-		std::vector<CollisionModel3D*> meshModel;  /// model 3DS
+		std::vector<CollisionModel3D*> meshModel;  /// 3DS model
 		CObjects3DS robot_model;
 
 		std::vector<std::string> nazwy_czesci;   /// [0]- Platform,  [1]- Link0,  [2]- Link1,  [3]- Link2

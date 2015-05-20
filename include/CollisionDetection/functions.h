@@ -10,7 +10,8 @@ using namespace std;
 
 #define PI 3.14159265
 
-/// Funkcja normalizujaca wektor podany jako zbior trzech wspolrzednych
+/// Function normalizing a vector given as a set of 3 coordinates
 void ReduceToUnit(float vector[3]);
-/// Punkty p1, p2 i p3 zdefiniowane w odwrotnym do wskazowek zegara porzadku
+
+/// Points p1, p2 and p3 are defined in a counterclockwise order
 void calcNormal(float** v, float* out);
