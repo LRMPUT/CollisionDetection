@@ -145,7 +145,7 @@ void CollisionDetectionColdet::Leg_All(int legNo, float Qn_1, float Qn_2, float 
 	meshModel[legNo+legsNo]->setTransform (udo);
 
 	float lydka[16];
-	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, joint2[1]*0.254, joint2[2]*0.254);
+	Eigen::Vector3d wektor_lydka(joint2[0]*0.254, 0.0*0.254, joint2[1]*0.254);
 	coldet::Mat34 m_noga3;
 	m_noga3 = m_noga2 * Eigen::AngleAxisd (joint2[3]*M_PI/180, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d(wektor_lydka) * Eigen::AngleAxisd (joint2[2]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (Qn_3*M_PI/180, Eigen::Vector3d::UnitZ());
 	copyTable(m_noga3,lydka);
@@ -205,8 +205,7 @@ void CollisionDetectionColdet::GLLeg_All(int legNo, float Qn_1, float Qn_2, floa
 void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::vector<coldet::float_type>& config) const
 {
 	coldet::Mat34 m4;
-	m4 = Eigen::AngleAxisd (0, Eigen::Vector3d::UnitZ());
-	m4 = m4 * pose * Eigen::AngleAxisd (-90*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (180*M_PI/180, Eigen::Vector3d::UnitZ());
+	m4 = pose * Eigen::AngleAxisd (-90*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (180*M_PI/180, Eigen::Vector3d::UnitZ());
 	float korpus[16];
 	copyTable(m4,korpus);
 	meshModel[0]->setTransform (korpus);	
@@ -217,7 +216,7 @@ void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::
 			b=-1;
 		else
 			b=1;
-	Leg_All(i, b*config[(i-1)*jointsNo]*180/3.14,config[(i-1)*jointsNo +1]*180/3.14,config[(i-1)*jointsNo +2]*180/3.14, m4, Leg[i-1]);
+	Leg_All(i, b*config[(i-1)*jointsNo]*180/M_PI,config[(i-1)*jointsNo +1]*180/M_PI,config[(i-1)*jointsNo +2]*180/M_PI, m4, Leg[i-1]);
 		}
 
 }
@@ -247,7 +246,7 @@ void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std:
 			a=-1;
 		else
 			a=1;
-		GLLeg_All(i, a*config[(i-1)*jointsNo]*180/3.14, config[(i-1)*jointsNo +1]*180/3.14, config[(i-1)*jointsNo +2]*180/3.14, collision_table, Leg[i-1]);
+		GLLeg_All(i, a*config[(i-1)*jointsNo]*180/M_PI, config[(i-1)*jointsNo +1]*180/M_PI, config[(i-1)*jointsNo +2]*180/M_PI, collision_table, Leg[i-1]);
 		glPopMatrix();
 
 		}
