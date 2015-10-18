@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "../include/CollisionDetection/CollisionDetectionColdet.h"
 #include <chrono>
+#include <fstream>
 #include <ctime>
 
 /**********************************************************
@@ -602,6 +603,13 @@ void MouseMotion( int x, int y )
  * 
  *********************************************************/
 
+int iterNo=0;
+std::random_device rd;
+    std::mt19937 generator(rd());
+std::uniform_real_distribution<double> distribution1(-85*M_PI/180,85*M_PI/180);
+std::uniform_real_distribution<double> distribution2(-145*M_PI/180,145*M_PI/180);
+std::uniform_real_distribution<double> distribution3(-185*M_PI/180,185*M_PI/180);
+
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		/// This clear the background color to dark blue
@@ -641,8 +649,39 @@ void display(void)
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);	
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
-	czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
+
+    config[3]=85*M_PI/180;
+    config[6]=85*M_PI/180;
+
+    if (iterNo<60000){
+        std::ofstream myfile;
+        myfile.open ("train.txt", std::ios::out | std::ios::app);
+        config[0] = distribution1(generator);
+        config[1] = distribution2(generator);
+        config[2] = distribution3(generator);
+        config[3] = distribution1(generator);
+        config[4] = distribution2(generator);
+        config[5] = distribution3(generator);
+        if (myfile.is_open()){
+            std::cout << config[0] <<"," << config[1] << "," << config[2] << "\n";
+            myfile << config[0] <<"," << config[1] << "," << config[2] << "," << config[3] <<"," << config[4] << "," << config[5] << "\n";
+            czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
+            //std::cout << collision_table[1] << " " << collision_table[7] << " " << collision_table[13] << "\n";
+            //if (collision_table[1]||collision_table[7]||collision_table[13]){
+            if (collision_table[1]||collision_table[7]||collision_table[13]||collision_table[2]||collision_table[8]||collision_table[14]){
+                std::cout << "1.0\n";
+                myfile << "1.0\n";
+            }
+            else {
+                std::cout << "0.0\n";
+                myfile << "0.0\n";
+            }
+        }
+    }
+    //usleep(500000);
+    iterNo++;
 	robot_structure->GLDrawRobot (pose, config, collision_table);
+
 
 
     glFlush(); // This force the execution of OpenGL commands
