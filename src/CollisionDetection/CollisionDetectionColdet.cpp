@@ -224,10 +224,10 @@ void CollisionDetectionColdet::DrawRobot (const coldet::Mat34& pose, const std::
 /// Drawing whole robot in OpenGL
 void CollisionDetectionColdet::GLDrawRobot(const coldet::Mat34& pose, const std::vector<coldet::float_type>& config,  std::vector<bool>& collision_table) const {
 
-	float GLmat[16]={pose(0,0), pose(1,0), pose(2,0), pose(3,0), pose(0,1), pose(1,1), pose(2,1), pose(3,1), pose(0,2), pose(1,2), pose(2,2), pose(3,2), pose(0,3), pose(1,3), pose(2,3), pose(3,3)}; //macierz do przeksztalcen
+    double GLmat[16]={pose(0,0), pose(1,0), pose(2,0), pose(3,0), pose(0,1), pose(1,1), pose(2,1), pose(3,1), pose(0,2), pose(1,2), pose(2,2), pose(3,2), pose(0,3), pose(1,3), pose(2,3), pose(3,3)}; //macierz do przeksztalcen
 
 	glPushMatrix();
-		glMultMatrixf(GLmat);
+        glMultMatrixd(GLmat);
 		glRotatef(-90,1,0,0);
 		glRotatef(180,0,0,1);
 		glPushMatrix();

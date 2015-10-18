@@ -136,12 +136,19 @@ class CollisionDetectionColdet : public coldet::CollisionDetection {
 			}
 
 			/// Loading robot's parts from 3DS model, a,b,c,d variables takes '1' if the part is loaded correctly
-			char a,b,c,d;
             std::cout << "Load model...";
-			a=robot_model.ObjLoad("../../resources/Messor_II_Model/corpus.3ds");
-			b=robot_model.ObjLoad("../../resources/Messor_II_Model/coxa.3ds");
-			c=robot_model.ObjLoad("../../resources/Messor_II_Model/femur.3ds");
-			d=robot_model.ObjLoad("../../resources/Messor_II_Model/vitulus.3ds");
+            std::string trunkFilename("../../resources/Messor_II_Model/corpus.3ds");
+            if(!robot_model.ObjLoad(trunkFilename))
+                std::cout << "Could not load " << trunkFilename << "\n";
+            std::string coxaFilename("../../resources/Messor_II_Model/coxa.3ds");
+            if(!robot_model.ObjLoad(coxaFilename))
+                std::cout << "Could not load " << coxaFilename << "\n";
+            std::string femurFilename("../../resources/Messor_II_Model/femur.3ds");
+            if(!robot_model.ObjLoad(femurFilename))
+                std::cout << "Could not load " << femurFilename << "\n";
+            std::string vitulusFilename("../../resources/Messor_II_Model/vitulus.3ds");
+            if(!robot_model.ObjLoad(vitulusFilename))
+                std::cout << "Could not load " << vitulusFilename << "\n";
             std::cout << "done.\n";
 
 			/// Creating collision models depending on the number of robot's legs (assuming that each leg has 3 links)

@@ -649,7 +649,7 @@ void display(void)
 
 	//pose = coldet::Quaternion(set_pose[0], set_pose[1], set_pose[2], set_pose[3])* coldet::Vec3(set_pose[4], set_pose[5], set_pose[6]);	
 	pose = coldet::Vec3(set_pose[0], set_pose[1], set_pose[2])* Eigen::AngleAxisd (set_pose[3]*M_PI/180, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd (set_pose[4]*M_PI/180, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd (set_pose[5]*M_PI/180, Eigen::Vector3d::UnitZ());
-
+/*
     config[3]=85*M_PI/180;
     config[6]=85*M_PI/180;
 
@@ -680,6 +680,8 @@ void display(void)
     }
     //usleep(500000);
     iterNo++;
+    */
+    czy_jest_kolizja=robot_structure->checkCollision (pose, config, collision_table);
 	robot_structure->GLDrawRobot (pose, config, collision_table);
 
 

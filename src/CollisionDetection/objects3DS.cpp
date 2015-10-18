@@ -47,9 +47,9 @@ void CObjects3DS::Object3DS(int obj_qty, float scale)
 	delete [] vert;	
 }
 
-char CObjects3DS::ObjLoad(char *p_object_name)
+char CObjects3DS::ObjLoad(std::string& objectFilename)
 {
-    if (Load3DS (&object[obj_qty],p_object_name)==0) return(0);		//Object loading
+    if (Load3DS (&object[obj_qty],objectFilename.c_str())==0) return(0);		//Object loading
     obj_qty++;		// Let's increase the object number and get ready to load another object!
 	return (1);		// If all is ok then return 1
 }
